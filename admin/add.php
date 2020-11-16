@@ -10,7 +10,18 @@ if($_SESSION['role'] != 1){
 }
 
 if($_POST){
-  $file = 'images/'.($_FILES['image']['name']);
+  if(empty($_POST['title']) || empty($_POST['content']) || empty($_POST['image'])){
+    if(empty($_POST['title'])){
+      $titleError = 'Title cannot be null';
+    }
+    if(empty($_POST['content'])){
+      $contentError = 'Content cannot be null';
+    }
+    if(empty($_POST['image'])){
+      $imageError = 'Image cannot be null';
+    }
+  }else{
+    $file = 'images/'.($_FILES['image']['name']);
   $imageType = pathinfo($file,PATHINFO_EXTENSION);
 
   if($imageType != 'png' && $imageType != 'jpg'&& $imageType != 'jpeg'){
@@ -30,6 +41,7 @@ if($_POST){
       echo "<script>alert('Successfully Added');window.location.href='index.php';</script>";
     }
   }
+  }
 }
 include 'header.php';
 ?>
@@ -42,16 +54,16 @@ include 'header.php';
               <div class="card-body">
                 <form class="" action="add.php" method="post" enctype="multipart/form-data">
                 <div class="form-group">
-                  <label>Title</label>
-                  <input type="text" name="title" class="form-control" value="" required>
+                  <label>Title</label><p style="color:red"><?php echo empty($titleError) ? '' : '*'.$titleError; ?></p>
+                  <input type="text" name="title" class="form-control" value="" >
                 </div>
                 <div class="form-group">
-                  <label>Content</label><br>
+                  <label>Content</label><p style="color:red"><?php echo empty($contentError) ? '' : '*'.$contentError; ?></p>
                   <textarea class="form-control" name="content" rows="8" cols="80"></textarea>
                 </div>
                 <div class="form-group">
-                  <label>Image</label><br>
-                  <input type="file" name="image" value="" required>
+                  <label>Image</label><p style="color:red"><?php echo empty($imageError) ? '' : '*'.$imageError; ?></p>
+                  <input type="file" name="image" value="" >
                 </div>
                 <div class="form-group">
                   <input type="submit" class="btn btn-success" name="" value="SUBMIT">

@@ -10,6 +10,14 @@ if($_SESSION['role'] != 1){
 }
 
 if($_POST){
+  if(empty($_POST['title']) || empty($_POST['content'])){
+    if(empty($_POST['title'])){
+      $titleError = 'Title cannot be null';
+    }
+    if(empty($_POST['content'])){
+      $contentError = 'Content cannot be null';
+    }
+  }else{
   $id = $_POST['id'];
   $title = $_POST['title'];
   $content = $_POST['content'];
@@ -37,9 +45,9 @@ if($_FILES['image']['name'] != null){
   $result = $stmt->execute();
     if($result){
       echo "<script>alert('Successfully Updated');window.location.href='index.php';</script>";
+      }
     }
   }
-
 }
 
 $stmt = $pdo->prepare("SELECT * FROM posts WHERE id=".$_GET['id']);
@@ -59,11 +67,11 @@ include 'header.php';
                 <form class="" action="" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                   <input type="hidden" name="id" value="<?php echo $result[0]['id'] ?>">
-                  <label>Title</label>
-                  <input type="text" name="title" class="form-control" value="<?php echo $result[0]['title'] ?>" required>
+                  <label>Title</label><p style="color:red"><?php echo empty($titleError) ? '' : '*'.$titleError; ?></p>
+                  <input type="text" name="title" class="form-control" value="<?php echo $result[0]['title'] ?>" >
                 </div>
                 <div class="form-group">
-                  <label>Content</label><br>
+                  <label>Content</label><p style="color:red"><?php echo empty($contentError) ? '' : '*'.$contentError; ?></p>
                   <textarea class="form-control" name="content" rows="8" cols="80"><?php echo $result[0]['content'] ?></textarea>
                 </div>
                 <div class="form-group">
