@@ -79,7 +79,7 @@ if($_POST){
             <div class="card card-widget">
               <div class="card-header">
                 <div style="text-align:center !important;float:none;" class = "card-title">
-                  <h4><?php echo $result[0]['title'] ?></h4>
+                  <h4><?php echo escape($result[0]['title']) ?></h4>
                 </div>
                 <!-- /.user-block -->
                 <!-- /.card-tools -->
@@ -88,7 +88,7 @@ if($_POST){
               <div class="card-body">
                 <img class="img-fluid pad" src="admin/images/<?php echo $result[0]['image'] ?>">
                 <br><br>
-                <p><?php echo $result[0]['content'] ?></p>
+                <p><?php echo escape($result[0]['content']) ?></p>
                 <h3>Comments</h3><hr>
                 <a href="/blog/" type="button" class="btn btn-default">Go Back</a>
               </div>
@@ -101,11 +101,11 @@ if($_POST){
                       <div class="comment-text" style="margin-left:0px !important">
                       <?php foreach ($cmResult as $key => $value) { ?>
                         <span class="username">
-                        <?php echo $auResult[$key][0]['name']; ?>
+                        <?php echo escape($auResult[$key][0]['name']); ?>
                         <span class="text-muted float-right">
-                        <?php echo $value['created_at']; ?></span>
+                        <?php echo escape($value['created_at']); ?></span>
                          </span><!-- /.username -->
-                         <?php echo $value['content']; ?> 
+                         <?php echo escape($value['content']); ?> 
                       <?php
                       } 
                       ?>
